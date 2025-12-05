@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BDTV by Moonim</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Favicon / App Icon -->
+  <link
+    rel="icon"
+    type="image/webp"
+    href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp"
+  />
+  <link
+    rel="apple-touch-icon"
+    type="image/webp"
+    href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp"
+  />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-elevated: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.15);
+      --text: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.2);
+      --danger: #ef4444;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1280px;
+      height: 100vh;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    /* ===== LOGIN OVERLAY ===== */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at top, rgba(79,70,229,0.4), transparent 55%),
+        radial-gradient(circle at bottom, rgba(15,23,42,0.9), rgba(0,0,0,1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .login-panel {
+      width: 100%;
+      max-width: 380px;
+      padding: 24px 22px 20px;
+      border-radius: 20px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 28px 80px rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(22px);
+    }
+
+    .login-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .login-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #020617;
+      border: 1px solid rgba(148,163,184,0.6);
+      box-shadow: 0 10px 25px rgba(15,23,42,0.9);
+      flex-shrink: 0;
+    }
+
+    .login-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .login-title-main {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .login-title-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .login-body {
+      margin-top: 4px;
+    }
+
+    .login-label {
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #e5e7eb;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      font-size: 13px;
+      outline: none;
+      margin-bottom: 10px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .login-input::placeholder {
+      color: rgba(148,163,184,0.7);
+    }
+
+    .login-input:focus {
+      border-color: rgba(59,130,246,0.9);
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.7);
+      background: rgba(15,23,42,1);
+    }
+
+    .login-error {
+      min-height: 16px;
+      font-size: 11px;
+      color: #fecaca;
+      margin-bottom: 4px;
+    }
+
+    .login-remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .login-remember-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .login-remember-left input {
+      accent-color: #4f46e5;
+      cursor: pointer;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 8px 0;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 16px 40px rgba(56,189,248,0.6);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+      margin-top: 4px;
+    }
+
+    .login-btn[disabled] {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .login-btn:hover:not([disabled]) {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 20px 50px rgba(59,130,246,0.7);
+    }
+
+    .login-btn:active:not([disabled]) {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(15,23,42,0.9);
+    }
+
+    /* HEADER / BANNER */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: rgba(15, 23, 42, 0.85);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.85);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.9);
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .pill-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+    }
+
+    .playlist-select-wrapper {
+      position: relative;
+    }
+
+    .playlist-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding: 6px 28px 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .playlist-select:focus {
+      border-color: rgba(59, 130, 246, 0.9);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
+    }
+
+    .playlist-select-arrow {
+      position: absolute;
+      right: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      pointer-events: none;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .refresh-btn,
+    .logout-btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      color: white;
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.55);
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 18px 40px rgba(59, 130, 246, 0.6);
+    }
+
+    .refresh-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.9);
+    }
+
+    .refresh-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(248, 250, 252, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .logout-btn {
+      background: rgba(127, 29, 29, 0.85);
+      color: #fee2e2;
+      border: 1px solid rgba(248, 113, 113, 0.6);
+      box-shadow: 0 10px 24px rgba(127, 29, 29, 0.8);
+    }
+
+    .logout-btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .logout-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.9);
+    }
+
+    /* Layout */
+    .main-layout {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.4fr);
+      gap: 12px;
+    }
+
+    /* Player card */
+    .player-card {
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.2), transparent 55%),
+                  linear-gradient(145deg, #020617, #020617 35%, #020617);
+      border-radius: 22px;
+      padding: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .player-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.12), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.1), transparent 60%);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .player-card-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 100%;
+    }
+
+    .player-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .current-channel {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .current-channel-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .live-pill {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(248, 250, 252, 0.08);
+      border: 1px solid rgba(248, 250, 252, 0.15);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.4);
+      animation: pulse 1.1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(0.9); opacity: 0.7; }
+      to   { transform: scale(1.1); opacity: 1; }
+    }
+
+    .copy-url-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.12s ease, border-color 0.12s ease, transform 0.08s ease;
+      width: fit-content;
+    }
+
+    .copy-url-btn:hover:not(:disabled) {
+      background: rgba(37, 99, 235, 0.9);
+      border-color: rgba(96, 165, 250, 0.9);
+      transform: translateY(-1px);
+    }
+
+    .copy-url-btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .copy-url-btn span.icon {
+      font-size: 12px;
+    }
+
+    .player-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.22);
+    }
+
+    .video-wrapper {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 0, #1f2937 0, #020617 55%, #000 100%);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      border-radius: inherit;
+    }
+
+    .video-overlay-gradient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to top, rgba(15, 23, 42, 0.55), transparent 45%),
+        radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.2), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.16), transparent 55%);
+      mix-blend-mode: soft-light;
+    }
+
+    .video-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #e5e7eb;
+      z-index: 2;
+    }
+
+    .quality-pill {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 10px;
+      color: var(--text-muted);
+      z-index: 2;
+    }
+
+    .hint-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 2px;
+      flex-wrap: wrap;
+    }
+
+    .hint-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .kbd {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.8);
+      color: #e5e7eb;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    .sidebar {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: var(--shadow-soft);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sidebar-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .sidebar-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .badge-count {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 1);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      color: var(--text-muted);
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 7px 8px 7px 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .search-input::placeholder {
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    .search-input:focus {
+      border-color: rgba(59, 130, 246, 0.8);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+      pointer-events: none;
+    }
+
+    .channel-list {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 2px;
+      margin-right: -4px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.7) transparent;
+    }
+
+    .channel-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .channel-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .channel-list::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.7);
+      border-radius: 999px;
+    }
+
+    .channel-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 9px;
+      margin-bottom: 4px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(30, 64, 175, 0.8);
+      cursor: pointer;
+      transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .channel-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.28), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.18s ease;
+      pointer-events: none;
+    }
+
+    .channel-item:hover {
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), rgba(15, 23, 42, 0.97));
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+      border-color: rgba(96, 165, 250, 0.85);
+    }
+
+    .channel-item:hover::before {
+      opacity: 1;
+    }
+
+    .channel-item.active {
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.35), rgba(15, 23, 42, 0.98));
+      border-color: rgba(56, 189, 248, 0.95);
+      box-shadow: 0 14px 30px rgba(56, 189, 248, 0.4);
+    }
+
+    .channel-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 0, rgba(248, 250, 252, 0.16), transparent 50%),
+                  radial-gradient(circle at 90% 100%, rgba(15, 23, 42, 0.9), #020617);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #e5e7eb;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .channel-avatar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(79, 70, 229, 0.55), rgba(34, 197, 94, 0.25));
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .channel-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      position: relative;
+      z-index: 1;
+      background: #020617;
+    }
+
+    .channel-avatar.has-logo::after {
+      opacity: 0;
+    }
+
+    .channel-avatar.has-logo > .channel-avatar-initials {
+      display: none;
+    }
+
+    .channel-avatar-initials {
+      position: relative;
+      z-index: 1;
+    }
+
+    .channel-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .channel-name {
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .channel-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .tag {
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .channel-badge-live {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.45);
+    }
+
+    .channel-extra {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .channel-index {
+      font-size: 10px;
+      color: rgba(156, 163, 175, 0.85);
+    }
+
+    .channel-badge-hd {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(129, 140, 248, 0.9);
+      background: rgba(30, 64, 175, 0.8);
+      color: #e5e7eb;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .loading,
+    .error {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .error {
+      color: #fed7d7;
+      border-color: rgba(248, 113, 113, 0.7);
+      background: rgba(127, 29, 29, 0.4);
+    }
+
+    .error strong {
+      color: #fecaca;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 900px) {
+      .main-layout {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell {
+        height: auto;
+        min-height: 100vh;
+        padding: 12px;
+      }
+
+      .app-header {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+
+      .player-card,
+      .sidebar {
+        border-radius: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-logo {
+        width: 52px;
+        height: 52px;
+      }
+
+      .brand-text h1 {
+        font-size: 16px;
+      }
+
+      .brand-text span {
+        font-size: 10px;
+      }
+
+      .app-header {
+        padding: 8px 10px;
+      }
+
+      .player-card,
+      .sidebar {
+        padding: 10px;
+      }
+
+      .current-channel-title {
+        font-size: 13px;
+      }
+
+      .hint-text {
+        font-size: 10px;
+      }
+
+      .search-input {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-panel">
+      <div class="login-header">
+        <div class="login-logo">
+          <img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="BDTV Logo">
+        </div>
+        <div>
+          <div class="login-title-main">BDTV by Moonim</div>
+          <div class="login-title-sub">Secure Access</div>
+        </div>
+      </div>
+      <div class="login-body">
+        <div class="login-error" id="loginError"></div>
+
+        <label class="login-label" for="loginUser">Username</label>
+        <input
+          id="loginUser"
+          class="login-input"
+          type="text"
+          autocomplete="username"
+          placeholder="Enter username"
+        />
+
+        <label class="login-label" for="loginPass">Password</label>
+        <input
+          id="loginPass"
+          class="login-input"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter password"
+        />
+
+        <div class="login-remember-row">
+          <label class="login-remember-left">
+            <input type="checkbox" id="rememberMe" />
+            <span>Remember me</span>
+          </label>
+          <span>©️2025 Moonim.live</span>
+        </div>
+
+        <button class="login-btn" id="loginBtn" type="button">
+          <span>Enter BDTV</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main app -->
+  <div class="app-shell" id="appShell" style="visibility:hidden;">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo">
+          <img
+            src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp"
+            alt="BDTV by Moonim Logo"
+          />
+        </div>
+        <div class="brand-text">
+          <h1>BDTV by Moonim</h1>
+          <span>BDIX IPTV Web Player</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="pill-indicator">
+          <span class="pill-dot"></span>
+          Multiple M3U sources
+        </div>
+
+        <div class="playlist-select-wrapper">
+          <select id="playlistSelect" class="playlist-select">
+            <option value="ayna" selected>Mirror BDIX Server</option>
+            <option value="mrgify">Merge BDIX</option>
+            <option value="falcon">Falcon Cast</option>
+          </select>
+          <span class="playlist-select-arrow">▾</span>
+        </div>
+
+        <button class="refresh-btn" id="reloadBtn">
+          <span class="refresh-icon">⟳</span>
+          Reload Playlist
+        </button>
+
+        <button class="logout-btn" id="logoutBtn" type="button" title="Logout">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <!-- Main layout -->
+    <main class="main-layout">
+      <!-- Player -->
+      <section class="player-card">
+        <div class="player-card-inner">
+          <div class="player-meta">
+            <div class="current-channel">
+              <div class="current-channel-title" id="currentChannelName">
+                Select a channel
+                <span class="live-pill">
+                  <span class="live-dot"></span>
+                  LIVE
+                </span>
+              </div>
+
+              <!-- URL hidden; button copies URL -->
+              <button class="copy-url-btn" id="copyUrlBtn" type="button" disabled>
+                <span class="icon">📋</span>
+                <span id="copyUrlLabel">Copy Stream URL</span>
+              </button>
+            </div>
+            <div class="player-status" id="playerStatus">
+              <span class="status-dot"></span>
+              Ready
+            </div>
+          </div>
+
+          <div class="video-wrapper">
+            <video id="videoPlayer" controls preload="metadata" crossorigin="anonymous"></video>
+            <div class="video-overlay-gradient"></div>
+            <div class="video-badge">
+              ▷ Stream
+              <span style="opacity: 0.7;">/ HTML5</span>
+            </div>
+            <div class="quality-pill" id="qualityPill">
+              Auto
+            </div>
+          </div>
+
+          <div class="hint-row">
+            <div class="hint-text">
+              Press <span class="kbd">Space</span> to play / pause
+            </div>
+            <div class="chip-row">
+              <div class="chip">
+                <span class="chip-dot"></span>
+                Sources: Mirror, Merge, Falcon
+              </div>
+              <div class="chip">BDIX IPTV</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sidebar with channels -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div>
+            <div class="sidebar-title">Channels</div>
+            <div class="sidebar-subtitle" id="sidebarSourceLabel">
+              From: Mirror BDIX Server
+            </div>
+          </div>
+          <span class="badge-count" id="channelCount">0 channels</span>
+        </div>
+
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search channels…"
+          />
+        </div>
+
+        <div id="channelList" class="channel-list">
+          <div class="loading" id="loadingState">
+            Loading playlist from GitHub raw URL…
+          </div>
+          <div class="error" id="errorState" style="display:none;">
+            <strong>Failed to load playlist.</strong><br />
+            Check your internet connection or that the M3U URL is accessible from the browser.
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    // ===== LOGIN + REMEMBER ME + LOGOUT (FRONTEND ONLY) =====
+    const loginOverlay = document.getElementById("loginOverlay");
+    const appShell = document.getElementById("appShell");
+    const loginUser = document.getElementById("loginUser");
+    const loginPass = document.getElementById("loginPass");
+    const rememberMe = document.getElementById("rememberMe");
+    const loginBtn  = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // Demo credentials (only checked in memory, never stored)
+    const DEMO_USER = "Entertainment";
+    const DEMO_PASS = "Pass";
+
+    const REMEMBER_KEY = "bdtv_remembered_login_v1";
+    const FAILED_KEY   = "bdtv_failed_count_v1";
+    const LOCK_UNTIL_KEY = "bdtv_lock_until_v1";
+
+    const MAX_FAILED = 5;
+    const LOCK_MS = 30_000; // 30 seconds
+
+    function getNow() {
+      return Date.now ? Date.now() : new Date().getTime();
+    }
+
+    function isLocked() {
+      try {
+        const lockUntil = parseInt(localStorage.getItem(LOCK_UNTIL_KEY) || "0", 10);
+        if (lockUntil && getNow() < lockUntil) {
+          const remaining = Math.ceil((lockUntil - getNow()) / 1000);
+          loginError.textContent = "Too many failed attempts. Try again in " + remaining + "s.";
+          loginBtn.disabled = true;
+          return true;
+        } else if (lockUntil && getNow() >= lockUntil) {
+          // Lock expired
+          localStorage.removeItem(LOCK_UNTIL_KEY);
+          localStorage.removeItem(FAILED_KEY);
+          loginBtn.disabled = false;
+        }
+      } catch (e) {
+        // ignore storage errors
+      }
+      return false;
+    }
+
+    function recordFailedAttempt() {
+      try {
+        const current = parseInt(localStorage.getItem(FAILED_KEY) || "0", 10) || 0;
+        const next = current + 1;
+        localStorage.setItem(FAILED_KEY, String(next));
+        if (next >= MAX_FAILED) {
+          const lockUntil = getNow() + LOCK_MS;
+          localStorage.setItem(LOCK_UNTIL_KEY, String(lockUntil));
+          loginBtn.disabled = true;
+          loginError.textContent = "Too many failed attempts. Login locked for 30 seconds.";
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function clearFailedAttempts() {
+      try {
+        localStorage.removeItem(FAILED_KEY);
+        localStorage.removeItem(LOCK_UNTIL_KEY);
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function clearRemembered() {
+      try {
+        localStorage.removeItem(REMEMBER_KEY);
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    function completeLogin(skipRememberSave = false) {
+      loginError.textContent = "";
+      loginOverlay.style.display = "none";
+      appShell.style.visibility = "visible";
+
+      clearFailedAttempts();
+
+      if (!skipRememberSave && rememberMe.checked) {
+        try {
+          localStorage.setItem(REMEMBER_KEY, "true");
+        } catch (e) {
+          console.warn("Unable to access localStorage:", e);
+        }
+      }
+
+      // after login, load playlist
+      loadPlaylist();
+    }
+
+    function tryLogin() {
+      if (isLocked()) return;
+
+      const u = loginUser.value.trim();
+      const p = loginPass.value;
+
+      if (!u || !p) {
+        loginError.textContent = "Please enter both username and password.";
+        return;
+      }
+
+      if (u === DEMO_USER && p === DEMO_PASS) {
+        completeLogin();
+      } else {
+        loginError.textContent = "Invalid credentials.";
+        recordFailedAttempt();
+      }
+    }
+
+    loginBtn.addEventListener("click", tryLogin);
+    loginPass.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        tryLogin();
+      }
+    });
+    loginUser.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        tryLogin();
+      }
+    });
+
+    // Logout button
+    logoutBtn.addEventListener("click", () => {
+      // Stop playback and clear app state
+      try {
+        videoPlayer.pause();
+        videoPlayer.removeAttribute("src");
+        videoPlayer.load();
+      } catch (e) {}
+
+      // Hide app, show login
+      appShell.style.visibility = "hidden";
+      loginOverlay.style.display = "flex";
+
+      // Clear remembered flag and attempts
+      clearRemembered();
+      clearFailedAttempts();
+
+      // Reset login inputs
+      loginUser.value = "";
+      loginPass.value = "";
+      rememberMe.checked = false;
+      loginError.textContent = "";
+
+      // Stop any playing channels list; not strictly necessary to reload
+      channels = [];
+      filteredChannels = [];
+      channelListEl.innerHTML = "";
+      channelCountEl.textContent = "0 channels";
+      currentChannelNameEl.childNodes[0].nodeValue = "Select a channel ";
+      copyUrlBtn.disabled = true;
+      copyUrlLabel.textContent = "Copy Stream URL";
+      playerStatusEl.innerHTML = '<span class="status-dot"></span> Ready';
+    });
+
+    // Auto-login if remembered and not locked
+    (function autoLoginIfRemembered() {
+      if (isLocked()) return;
+
+      try {
+        const remembered = localStorage.getItem(REMEMBER_KEY);
+        if (remembered === "true") {
+          completeLogin(true);
+        }
+      } catch (e) {
+        console.warn("Unable to read localStorage:", e);
+      }
+    })();
+
+    // ===== IPTV APP LOGIC =====
+    const PLAYLISTS = {
+      ayna: {
+        name: "Mirror BDIX Server",
+        url: "https://raw.githubusercontent.com/abusaeeidx/Ayna-BDIX-IPTV-Playlist/refs/heads/main/ayna-playlist.m3u",
+      },
+      mrgify: {
+        name: "Merge BDIX",
+        url: "https://raw.githubusercontent.com/abusaeeidx/Mrgify-BDIX-IPTV/main/playlist.m3u",
+      },
+      falcon: {
+        name: "Falcon Cast",
+        url: "https://raw.githubusercontent.com/FunctionError/PiratesTv/refs/heads/main/combined_playlist.m3u",
+      },
+    };
+
+    const videoPlayer = document.getElementById("videoPlayer");
+    const channelListEl = document.getElementById("channelList");
+    const loadingStateEl = document.getElementById("loadingState");
+    const errorStateEl = document.getElementById("errorState");
+    const currentChannelNameEl = document.getElementById("currentChannelName");
+    const playerStatusEl = document.getElementById("playerStatus");
+    const channelCountEl = document.getElementById("channelCount");
+    const searchInputEl = document.getElementById("searchInput");
+    const qualityPillEl = document.getElementById("qualityPill");
+    const reloadBtn = document.getElementById("reloadBtn");
+    const playlistSelectEl = document.getElementById("playlistSelect");
+    const sidebarSourceLabelEl = document.getElementById("sidebarSourceLabel");
+    const copyUrlBtn = document.getElementById("copyUrlBtn");
+    const copyUrlLabel = document.getElementById("copyUrlLabel");
+
+    let currentPlaylistKey = "ayna";
+    let channels = [];
+    let filteredChannels = [];
+    let activeIndex = -1;
+    let currentUrl = "";
+
+    function getCurrentPlaylist() {
+      return PLAYLISTS[currentPlaylistKey];
+    }
+
+    function updateSidebarSourceLabel() {
+      const pl = getCurrentPlaylist();
+      sidebarSourceLabelEl.textContent = "From: " + pl.name;
+    }
+
+    async function loadPlaylist() {
+      const playlist = getCurrentPlaylist();
+      updateSidebarSourceLabel();
+
+      loadingStateEl.style.display = "block";
+      errorStateEl.style.display = "none";
+      channelListEl.innerHTML = "";
+      channelListEl.appendChild(loadingStateEl);
+
+      channels = [];
+      filteredChannels = [];
+      activeIndex = -1;
+      currentUrl = "";
+      currentChannelNameEl.childNodes[0].nodeValue = "Select a channel ";
+      copyUrlBtn.disabled = true;
+      copyUrlLabel.textContent = "Copy Stream URL";
+      playerStatusEl.innerHTML = '<span class="status-dot"></span> Ready';
+      videoPlayer.pause();
+      videoPlayer.removeAttribute("src");
+      videoPlayer.load();
+
+      try {
+        const res = await fetch(playlist.url);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const text = await res.text();
+        channels = parseM3U(text);
+        filteredChannels = channels.slice();
+        renderChannels();
+
+        loadingStateEl.style.display = "none";
+        if (channels.length === 0) {
+          channelListEl.innerHTML =
+            '<div class="error"><strong>No channels found</strong> in the playlist.</div>';
+        }
+      } catch (err) {
+        console.error("Failed to load playlist:", err);
+        loadingStateEl.style.display = "none";
+        errorStateEl.style.display = "block";
+        channelListEl.innerHTML = "";
+        channelListEl.appendChild(errorStateEl);
+      }
+    }
+
+    function parseM3U(text) {
+      const lines = text.split(/\r?\n/);
+      const result = [];
+      let currentName = null;
+      let currentAttrsRaw = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        if (line.startsWith("#EXTINF:")) {
+          const parts = line.split(",", 2);
+          const infoPart = parts[0];
+          const namePart = parts[1] ? parts[1].trim() : "Unknown";
+
+          currentName = namePart || "Unknown";
+          currentAttrsRaw = infoPart;
+        } else if (!line.startsWith("#")) {
+          const url = line;
+          if (currentName) {
+            const meta = extractMetaFromExtInf(currentAttrsRaw);
+            result.push({
+              name: currentName,
+              url,
+              group: meta.group,
+              tvgId: meta.tvgId,
+              tvgName: meta.tvgName,
+              logo: meta.logo,
+            });
+            currentName = null;
+            currentAttrsRaw = null;
+          } else {
+            result.push({
+              name: url,
+              url,
+              group: "",
+              tvgId: "",
+              tvgName: "",
+              logo: "",
+            });
+          }
+        }
+      }
+      return result;
+    }
+
+    function extractMetaFromExtInf(infoPart) {
+      const meta = { group: "", tvgId: "", tvgName: "", logo: "" };
+      if (!infoPart) return meta;
+
+      const groupMatch = infoPart.match(/group-title="([^"]*)"/i);
+      const idMatch = infoPart.match(/tvg-id="([^"]*)"/i);
+      const nameMatch = infoPart.match(/tvg-name="([^"]*)"/i);
+      const logoMatch = infoPart.match(/tvg-logo="([^"]*)"/i);
+
+      if (groupMatch) meta.group = groupMatch[1];
+      if (idMatch) meta.tvgId = idMatch[1];
+      if (nameMatch) meta.tvgName = nameMatch[1];
+      if (logoMatch) meta.logo = logoMatch[1];
+
+      return meta;
+    }
+
+    function renderChannels() {
+      channelListEl.innerHTML = "";
+      if (!filteredChannels.length) {
+        channelListEl.innerHTML =
+          '<div class="error"><strong>No channels match your search.</strong></div>';
+      } else {
+        filteredChannels.forEach((ch) => {
+          const realIndex = channels.indexOf(ch);
+          const item = document.createElement("div");
+          item.className =
+            "channel-item" + (realIndex === activeIndex ? " active" : "");
+          item.dataset.index = realIndex;
+
+          const avatar = document.createElement("div");
+          avatar.className = "channel-avatar";
+
+          const initials =
+            (ch.name || "CH")
+              .split(/\s+/)
+              .filter(Boolean)
+              .slice(0, 2)
+              .map((s) => s[0])
+              .join("")
+              .toUpperCase();
+
+          const initialsSpan = document.createElement("span");
+          initialsSpan.className = "channel-avatar-initials";
+          initialsSpan.textContent = initials;
+          avatar.appendChild(initialsSpan);
+
+          if (ch.logo) {
+            avatar.classList.add("has-logo");
+            const img = document.createElement("img");
+            img.className = "channel-logo-img";
+            img.src = ch.logo;
+            img.alt = ch.name || "channel-logo";
+            img.addEventListener("error", () => {
+              avatar.classList.remove("has-logo");
+              if (img.parentNode) img.parentNode.removeChild(img);
+            });
+            avatar.appendChild(img);
+          }
+
+          const info = document.createElement("div");
+          info.className = "channel-info";
+
+          const titleEl = document.createElement("div");
+          titleEl.className = "channel-name";
+          titleEl.textContent = ch.name;
+
+          const metaLine = document.createElement("div");
+          metaLine.className = "channel-meta-line";
+
+          const liveDot = document.createElement("span");
+          liveDot.className = "channel-badge-live";
+
+          const groupText = document.createElement("span");
+          groupText.textContent = ch.group || "Live TV";
+
+          const tag = document.createElement("span");
+          tag.className = "tag";
+          tag.textContent = ch.group ? ch.group : "GENERAL";
+
+          metaLine.appendChild(liveDot);
+          metaLine.appendChild(groupText);
+          metaLine.appendChild(tag);
+
+          info.appendChild(titleEl);
+          info.appendChild(metaLine);
+
+          const extra = document.createElement("div");
+          extra.className = "channel-extra";
+
+          const indexEl = document.createElement("div");
+          indexEl.className = "channel-index";
+          indexEl.textContent = "#" + (realIndex + 1).toString().padStart(3, "0");
+
+          const badgeHd = document.createElement("div");
+          badgeHd.className = "channel-badge-hd";
+          badgeHd.textContent =
+            /\.m3u8($|\?)/i.test(ch.url) || /hd/i.test(ch.name) ? "HD" : "SD";
+
+          extra.appendChild(indexEl);
+          extra.appendChild(badgeHd);
+
+          item.appendChild(avatar);
+          item.appendChild(info);
+          item.appendChild(extra);
+
+          item.addEventListener("click", () => {
+            selectChannel(realIndex);
+          });
+
+          channelListEl.appendChild(item);
+        });
+      }
+
+      channelCountEl.textContent =
+        filteredChannels.length + " channel" + (filteredChannels.length === 1 ? "" : "s");
+    }
+
+    function selectChannel(index) {
+      const channel = channels[index];
+      if (!channel) return;
+
+      activeIndex = index;
+      currentUrl = channel.url || "";
+      currentChannelNameEl.childNodes[0].nodeValue = channel.name + " ";
+
+      copyUrlBtn.disabled = !currentUrl;
+      copyUrlLabel.textContent = "Copy Stream URL";
+
+      playerStatusEl.innerHTML =
+        '<span class="status-dot"></span> Loading…';
+
+      try {
+        videoPlayer.pause();
+        videoPlayer.src = channel.url;
+        videoPlayer.load();
+        videoPlayer
+          .play()
+          .then(() => {
+            playerStatusEl.innerHTML =
+              '<span class="status-dot"></span> Playing';
+          })
+          .catch((err) => {
+            console.warn("Autoplay failed:", err);
+            playerStatusEl.innerHTML =
+              '<span class="status-dot" style="background:#f97316;box-shadow:0 0 0 4px rgba(251,146,60,0.4);"></span> Ready (click play)';
+          });
+      } catch (err) {
+        console.error("Failed to set video source:", err);
+        playerStatusEl.innerHTML =
+          '<span class="status-dot" style="background:#ef4444;box-shadow:0 0 0 4px rgba(248,113,113,0.4);"></span> Error';
+      }
+
+      qualityPillEl.textContent = /\.m3u8($|\?)/i.test(channel.url)
+        ? "HLS"
+        : /\.mpd($|\?)/i.test(channel.url)
+        ? "DASH"
+        : "Auto";
+
+      document.querySelectorAll(".channel-item").forEach((el) => {
+        const idx = Number(el.dataset.index);
+        if (idx === activeIndex) el.classList.add("active");
+        else el.classList.remove("active");
+      });
+    }
+
+    function handleSearch() {
+      const term = searchInputEl.value.trim().toLowerCase();
+      if (!term) {
+        filteredChannels = channels.slice();
+      } else {
+        filteredChannels = channels.filter((ch) => {
+          return (
+            (ch.name && ch.name.toLowerCase().includes(term)) ||
+            (ch.group && ch.group.toLowerCase().includes(term)) ||
+            (ch.tvgName && ch.tvgName.toLowerCase().includes(term))
+          );
+        });
+      }
+      renderChannels();
+    }
+
+    searchInputEl.addEventListener("input", handleSearch);
+    reloadBtn.addEventListener("click", loadPlaylist);
+
+    playlistSelectEl.addEventListener("change", () => {
+      currentPlaylistKey = playlistSelectEl.value;
+      loadPlaylist();
+    });
+
+    // Copy stream URL
+    copyUrlBtn.addEventListener("click", async () => {
+      if (!currentUrl) return;
+      try {
+        await navigator.clipboard.writeText(currentUrl);
+        copyUrlLabel.textContent = "Copied!";
+        setTimeout(() => {
+          copyUrlLabel.textContent = "Copy Stream URL";
+        }, 1500);
+      } catch (e) {
+        console.error("Clipboard copy failed:", e);
+        copyUrlLabel.textContent = "Copy failed";
+        setTimeout(() => {
+          copyUrlLabel.textContent = "Copy Stream URL";
+        }, 1500);
+      }
+    });
+
+    // Space bar play/pause
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.code === "Space" &&
+        e.target.tagName !== "INPUT" &&
+        e.target.tagName !== "TEXTAREA"
+      ) {
+        e.preventDefault();
+        if (videoPlayer.paused) videoPlayer.play();
+        else videoPlayer.pause();
+      }
+    });
+
+    videoPlayer.addEventListener("play", () => {
+      playerStatusEl.innerHTML =
+        '<span class="status-dot"></span> Playing';
+    });
+
+    videoPlayer.addEventListener("pause", () => {
+      playerStatusEl.innerHTML =
+        '<span class="status-dot" style="background:#f97316;box-shadow:0 0 0 4px rgba(251,146,60,0.35);"></span> Paused';
+    });
+
+    videoPlayer.addEventListener("error", () => {
+      playerStatusEl.innerHTML =
+        '<span class="status-dot" style="background:#ef4444;box-shadow:0 0 0 4px rgba(248,113,113,0.4);"></span> Playback error';
+    });
+
+    // NOTE: loadPlaylist() is called after successful login / auto-login
+  </script>
+</body>
+</html>
