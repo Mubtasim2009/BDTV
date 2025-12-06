@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MStream – Search</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-main: #020916;
+      --accent: #e50914;
+      --text-main: #f5f5f5;
+      --text-muted: #a7b0c5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101933 0, #020916 55%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      padding: 1.2rem 5vw 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .brand img {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .nav-links a {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+    }
+    .nav-links a.active {
+      color: var(--text-main);
+      background: rgba(255,255,255,0.05);
+    }
+
+    main {
+      padding: 0.4rem 5vw 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .search-bar-wrap {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 0.3rem;
+    }
+    .search-bar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(5, 11, 28, 0.98);
+      border-radius: 999px;
+      border: 1px solid #22273a;
+      padding: 0.2rem 0.4rem 0.2rem 0.9rem;
+    }
+    .search-bar input[type="text"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      padding: 0.5rem 0.5rem 0.5rem 0;
+    }
+    .search-bar input::placeholder { color: #525b75; }
+    .search-type {
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      background: #151b2b;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding: 0.35rem 0.8rem;
+    }
+    .search-btn {
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      padding: 0.5rem 1.2rem;
+      background: linear-gradient(135deg, #ff2a40, #e50914);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      margin: 0.5rem 0 0.2rem;
+    }
+    #status {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .row-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+    .card {
+      background: rgba(8, 12, 28, 0.96);
+      border-radius: 0.65rem;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(36, 42, 68, 0.8);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      background: rgba(15, 20, 40, 0.98);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.85);
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+    .card-body {
+      padding: 0.45rem 0.55rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      background: #18213a;
+      color: #c0c8e0;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    footer {
+      padding: 0.8rem 5vw 1.2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      main { padding-inline: 4vw; }
+      header { padding-inline: 4vw; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="brand">
+      <img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="MStream logo">
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="search.html" class="active">Search</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="search-bar-wrap">
+      <div class="search-bar">
+        <input id="searchInput" type="text" placeholder="Search movies or TV shows..." />
+        <select id="searchType" class="search-type">
+          <option value="multi">All</option>
+          <option value="movie">Movies</option>
+          <option value="tv">TV</option>
+        </select>
+      </div>
+      <button id="searchBtn" class="search-btn">Search</button>
+    </div>
+
+    <h1 id="heading">Search</h1>
+    <div id="status">Type a query and press Search.</div>
+    <div id="results" class="row-grid"></div>
+  </main>
+
+  <footer>
+    Data from TMDB – Streams via VidKing – UI by MStream.
+  </footer>
+
+  <script>
+    const TMDB_API_KEY = "b14194d00ce48c36318eefa745bcdeec";
+    const TMDB_BASE = "https://api.themoviedb.org/3";
+    const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/";
+    const POSTER_SIZE = "w300";
+
+    const searchInput = document.getElementById("searchInput");
+    const searchType  = document.getElementById("searchType");
+    const searchBtn   = document.getElementById("searchBtn");
+    const headingEl   = document.getElementById("heading");
+    const statusEl    = document.getElementById("status");
+    const resultsEl   = document.getElementById("results");
+
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+
+    function openMoviePlayer(id) {
+      window.open(`player-movie.html?id=${encodeURIComponent(id)}`, "_blank");
+    }
+
+    function openTvPlayer(id) {
+      window.open(`player-tv.html?id=${encodeURIComponent(id)}`, "_blank");
+    }
+
+    function createPosterCard(item, mediaType) {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      if (item.poster_path) {
+        img.src = TMDB_IMG_BASE + POSTER_SIZE + item.poster_path;
+      } else {
+        img.src = "https://via.placeholder.com/300x450?text=No+Image";
+      }
+      img.alt = (item.title || item.name || "Poster") + " poster";
+
+      const body = document.createElement("div");
+      body.className = "card-body";
+
+      const titleEl = document.createElement("div");
+      titleEl.className = "card-title";
+      titleEl.textContent = item.title || item.name || "Untitled";
+
+      const metaEl = document.createElement("div");
+      metaEl.className = "card-meta";
+      const year =
+        (item.release_date && item.release_date.slice(0,4)) ||
+        (item.first_air_date && item.first_air_date.slice(0,4)) || "";
+      const badgeText = mediaType.toUpperCase();
+      metaEl.textContent = [year, badgeText].filter(Boolean).join(" • ");
+
+      const badgeEl = document.createElement("span");
+      badgeEl.className = "badge";
+      badgeEl.textContent = mediaType;
+
+      body.appendChild(titleEl);
+      body.appendChild(metaEl);
+      body.appendChild(badgeEl);
+
+      card.appendChild(img);
+      card.appendChild(body);
+
+      card.addEventListener("click", () => {
+        if (mediaType === "tv") openTvPlayer(item.id);
+        else openMoviePlayer(item.id);
+      });
+
+      return card;
+    }
+
+    async function fetchJson(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("TMDB error " + res.status);
+      return res.json();
+    }
+
+    async function doSearch(q, type) {
+      if (!TMDB_API_KEY) {
+        statusEl.textContent = "ERROR: TMDB API key missing.";
+        return;
+      }
+      if (!q) {
+        statusEl.textContent = "Please enter a search query.";
+        return;
+      }
+
+      resultsEl.innerHTML = "";
+      statusEl.textContent = "Searching TMDB…";
+
+      try {
+        let endpoint;
+        if (type === "multi") endpoint = "/search/multi";
+        else if (type === "movie") endpoint = "/search/movie";
+        else endpoint = "/search/tv";
+
+        const url = new URL(TMDB_BASE + endpoint);
+        url.searchParams.set("api_key", TMDB_API_KEY);
+        url.searchParams.set("query", q);
+        url.searchParams.set("language", "en-US");
+        url.searchParams.set("include_adult", "false");
+
+        const data = await fetchJson(url);
+        const results = Array.isArray(data.results) ? data.results : [];
+
+        headingEl.textContent = `Search: "${q}"`;
+        if (!results.length) {
+          statusEl.textContent = "No results found.";
+          return;
+        }
+
+        statusEl.textContent = `Found ${results.length} result(s). Click to open player.`;
+        for (const item of results) {
+          const mediaType = item.media_type || type || (item.name ? "tv" : "movie");
+          if (mediaType !== "movie" && mediaType !== "tv") continue;
+          resultsEl.appendChild(createPosterCard(item, mediaType));
+        }
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "Error talking to TMDB. Check console.";
+      }
+    }
+
+    function applyUrlToForm() {
+      const q = getQueryParam("q") || "";
+      const type = getQueryParam("type") || "multi";
+      searchInput.value = q;
+      searchType.value = type;
+      if (q) doSearch(q, type);
+    }
+
+    function handleSearchClick() {
+      const q = searchInput.value.trim();
+      const type = searchType.value;
+      if (!q) return;
+      const url = new URL(window.location.href);
+      url.searchParams.set("q", q);
+      url.searchParams.set("type", type);
+      window.location.href = url.toString();
+    }
+
+    searchBtn.addEventListener("click", handleSearchClick);
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleSearchClick();
+    });
+
+    applyUrlToForm();
+  </script>
+</body>
+</html>

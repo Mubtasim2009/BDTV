@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BDTV VOD – Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp">
+  <meta property="og:image" content="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-main: #020916;
+      --accent: #e50914;
+      --text-main: #f5f5f5;
+      --text-muted: #a7b0c5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #101933 0, #020916 55%);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      padding: 1.2rem 5vw 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .brand img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .header-right {
+      display:flex;
+      align-items:center;
+      gap:0.8rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    .nav-links a.active {
+      color: var(--text-main);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .live-btn {
+      padding:0.4rem 0.9rem;
+      border-radius:999px;
+      border:none;
+      font-size:0.85rem;
+      font-weight:600;
+      cursor:pointer;
+      background:linear-gradient(135deg,#ffb800,#ff6a00);
+      color:#111;
+      box-shadow:0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .hero {
+      padding: 0.4rem 5vw 0.6rem;
+    }
+
+    .hero-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .search-bar-wrap {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .search-bar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(5, 11, 28, 0.98);
+      border-radius: 999px;
+      border: 1px solid #22273a;
+      padding: 0.2rem 0.4rem 0.2rem 0.9rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    }
+
+    .search-bar input[type="text"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      padding: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    .search-bar input::placeholder { color: #525b75; }
+
+    .search-type {
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      background: #151b2b;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding: 0.35rem 0.8rem;
+    }
+
+    .search-btn {
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      padding: 0.5rem 1.2rem;
+      background: linear-gradient(135deg, #ff2a40, #e50914);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+    }
+
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .hero-help {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      padding: 0 5vw 1.6rem;
+    }
+
+    .section-block {
+      margin-top: 0.4rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .section-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .backdrop-row {
+      margin-top: 0.4rem;
+      display: flex;
+      gap: 0.75rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      scroll-behavior: smooth;
+    }
+
+    .backdrop-row::-webkit-scrollbar { height: 6px; }
+    .backdrop-row::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.18);
+      border-radius: 999px;
+    }
+
+    .backdrop-card {
+      position: relative;
+      min-width: 260px;
+      max-width: 360px;
+      aspect-ratio: 16 / 9;
+      border-radius: 0.9rem;
+      overflow: hidden;
+      background: #000;
+      cursor: pointer;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.8);
+      border: 1px solid rgba(36, 42, 68, 0.8);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, filter 0.16s ease;
+      flex: 0 0 auto;
+    }
+
+    .backdrop-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.9);
+      filter: brightness(1.05);
+    }
+
+    .backdrop-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .backdrop-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0, rgba(0,0,0,0.05) 60%);
+    }
+
+    .backdrop-info {
+      position: absolute;
+      left: 0.65rem;
+      right: 0.65rem;
+      bottom: 0.55rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .backdrop-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .backdrop-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      background: #18213a;
+      color: #c0c8e0;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .row-grid {
+      margin-top: 0.4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .card {
+      background: rgba(8, 12, 28, 0.96);
+      border-radius: 0.65rem;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(36, 42, 68, 0.8);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      background: rgba(15, 20, 40, 0.98);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.85);
+    }
+
+    .card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+
+    .card-body {
+      padding: 0.45rem 0.55rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      padding: 0.8rem 5vw 1.2rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: auto;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 1.4rem; }
+      .hero { padding-inline: 4vw; }
+      .content { padding-inline: 4vw; }
+      header { padding-inline: 4vw; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="brand">
+      <img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="BDTV VOD logo">
+    </a>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="search.html">Search</a>
+        <a href="about.html">About</a>
+      </nav>
+      <button class="live-btn" onclick="window.location.href='live.html'">Live TV</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-title">Discover and watch instantly.</div>
+    <div class="hero-sub">Browse movies and TV shows in a clean, dark interface.</div>
+
+    <div class="search-bar-wrap">
+      <div class="search-bar">
+        <input id="searchInput" type="text" placeholder="Search movies or TV shows..." />
+        <select id="searchType" class="search-type">
+          <option value="multi">All</option>
+          <option value="movie">Movies</option>
+          <option value="tv">TV</option>
+        </select>
+      </div>
+      <button id="searchBtn" class="search-btn">Search</button>
+    </div>
+    <div class="hero-help">Search opens a dedicated results page. Click any card to open a player page.</div>
+  </section>
+
+  <section class="content">
+    <!-- TRENDING MOVIES -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title">Trending Movies Today</div>
+        <div class="section-sub" id="trendingMoviesStatus">Loading…</div>
+      </div>
+      <div id="trendingMoviesBackdrops" class="backdrop-row"></div>
+      <div id="trendingMoviesPosters" class="row-grid"></div>
+    </div>
+
+    <!-- TRENDING TV -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title">Trending TV Today</div>
+        <div class="section-sub" id="trendingTvStatus">Loading…</div>
+      </div>
+      <div id="trendingTvBackdrops" class="backdrop-row"></div>
+      <div id="trendingTvPosters" class="row-grid"></div>
+    </div>
+
+    <!-- NOW PLAYING MOVIES -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title">Now Playing (Movies)</div>
+        <div class="section-sub" id="nowPlayingStatus">Loading…</div>
+      </div>
+      <div id="nowPlayingMovies" class="row-grid"></div>
+    </div>
+
+    <!-- TOP RATED MOVIES -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title">Top Rated Movies</div>
+        <div class="section-sub" id="topRatedMoviesStatus">Loading…</div>
+      </div>
+      <div id="topRatedMovies" class="row-grid"></div>
+    </div>
+
+    <!-- POPULAR TV -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title">Popular TV Shows</div>
+        <div class="section-sub" id="popularTvStatus">Loading…</div>
+      </div>
+      <div id="popularTv" class="row-grid"></div>
+    </div>
+
+    <!-- TOP RATED TV -->
+    <div class="section-block">
+      <div class="section-header">
+        <div class="section-title">Top Rated TV Shows</div>
+        <div class="section-sub" id="topRatedTvStatus">Loading…</div>
+      </div>
+      <div id="topRatedTv" class="row-grid"></div>
+    </div>
+  </section>
+
+  <footer>
+    BDTV VOD.
+  </footer>
+
+  <script>
+    const TMDB_API_KEY = "b14194d00ce48c36318eefa745bcdeec";
+    const TMDB_BASE = "https://api.themoviedb.org/3";
+    const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/";
+    const POSTER_SIZE = "w300";
+    const BACKDROP_SIZE = "w780";
+
+    const trendingMoviesBackdropsEl = document.getElementById("trendingMoviesBackdrops");
+    const trendingMoviesPostersEl   = document.getElementById("trendingMoviesPosters");
+    const trendingTvBackdropsEl     = document.getElementById("trendingTvBackdrops");
+    const trendingTvPostersEl       = document.getElementById("trendingTvPosters");
+    const nowPlayingMoviesEl        = document.getElementById("nowPlayingMovies");
+    const topRatedMoviesEl          = document.getElementById("topRatedMovies");
+    const popularTvEl               = document.getElementById("popularTv");
+    const topRatedTvEl              = document.getElementById("topRatedTv");
+
+    const trendingMoviesStatusEl = document.getElementById("trendingMoviesStatus");
+    const trendingTvStatusEl     = document.getElementById("trendingTvStatus");
+    const nowPlayingStatusEl    = document.getElementById("nowPlayingStatus");
+    const topRatedMoviesStatusEl= document.getElementById("topRatedMoviesStatus");
+    const popularTvStatusEl     = document.getElementById("popularTvStatus");
+    const topRatedTvStatusEl    = document.getElementById("topRatedTvStatus");
+
+    function openMoviePlayer(id) {
+      window.open(`player-movie.html?id=${encodeURIComponent(id)}`, "_blank");
+    }
+
+    function openTvPlayer(id) {
+      window.open(`player-tv.html?id=${encodeURIComponent(id)}`, "_blank");
+    }
+
+    function createPosterCard(item, mediaType) {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      if (item.poster_path) {
+        img.src = TMDB_IMG_BASE + POSTER_SIZE + item.poster_path;
+      } else {
+        img.src = "https://via.placeholder.com/300x450?text=No+Image";
+      }
+      img.alt = (item.title || item.name || "Poster") + " poster";
+
+      const body = document.createElement("div");
+      body.className = "card-body";
+
+      const titleEl = document.createElement("div");
+      titleEl.className = "card-title";
+      titleEl.textContent = item.title || item.name || "Untitled";
+
+      const metaEl = document.createElement("div");
+      metaEl.className = "card-meta";
+      const year =
+        (item.release_date && item.release_date.slice(0,4)) ||
+        (item.first_air_date && item.first_air_date.slice(0,4)) || "";
+      const badgeText = mediaType.toUpperCase();
+      metaEl.textContent = [year, badgeText].filter(Boolean).join(" • ");
+
+      const badgeEl = document.createElement("span");
+      badgeEl.className = "badge";
+      badgeEl.textContent = mediaType;
+
+      body.appendChild(titleEl);
+      body.appendChild(metaEl);
+      body.appendChild(badgeEl);
+
+      card.appendChild(img);
+      card.appendChild(body);
+
+      card.addEventListener("click", () => {
+        if (mediaType === "tv") openTvPlayer(item.id);
+        else openMoviePlayer(item.id);
+      });
+
+      return card;
+    }
+
+    function createBackdropCard(item, mediaType) {
+      const card = document.createElement("article");
+      card.className = "backdrop-card";
+
+      const img = document.createElement("img");
+      const backdropPath = item.backdrop_path || item.poster_path;
+      if (backdropPath) {
+        img.src = TMDB_IMG_BASE + BACKDROP_SIZE + backdropPath;
+      } else {
+        img.src = "https://via.placeholder.com/640x360?text=No+Image";
+      }
+      img.alt = (item.title || item.name || "Backdrop") + " backdrop";
+
+      const gradient = document.createElement("div");
+      gradient.className = "backdrop-gradient";
+
+      const info = document.createElement("div");
+      info.className = "backdrop-info";
+
+      const titleEl = document.createElement("div");
+      titleEl.className = "backdrop-title";
+      titleEl.textContent = item.title || item.name || "Untitled";
+
+      const metaEl = document.createElement("div");
+      metaEl.className = "backdrop-meta";
+      const year =
+        (item.release_date && item.release_date.slice(0,4)) ||
+        (item.first_air_date && item.first_air_date.slice(0,4)) || "";
+
+      const badgeEl = document.createElement("span");
+      badgeEl.className = "badge";
+      badgeEl.textContent = mediaType;
+
+      if (year) metaEl.textContent = year;
+
+      info.appendChild(titleEl);
+      if (year) info.appendChild(metaEl);
+      info.appendChild(badgeEl);
+
+      card.appendChild(img);
+      card.appendChild(gradient);
+      card.appendChild(info);
+
+      card.addEventListener("click", () => {
+        if (mediaType === "tv") openTvPlayer(item.id);
+        else openMoviePlayer(item.id);
+      });
+
+      return card;
+    }
+
+    async function fetchJson(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("TMDB error " + res.status);
+      return res.json();
+    }
+
+    async function loadHomeData() {
+      if (!TMDB_API_KEY) {
+        [
+          trendingMoviesStatusEl, trendingTvStatusEl,
+          nowPlayingStatusEl, topRatedMoviesStatusEl,
+          popularTvStatusEl, topRatedTvStatusEl
+        ].forEach(el => el.textContent = "API key missing.");
+        return;
+      }
+
+      try {
+        const urls = {
+          trendingMovies: `${TMDB_BASE}/trending/movie/day?api_key=${TMDB_API_KEY}`,
+          trendingTv:     `${TMDB_BASE}/trending/tv/day?api_key=${TMDB_API_KEY}`,
+          nowPlaying:     `${TMDB_BASE}/movie/now_playing?api_key=${TMDB_API_KEY}&language=en-US`,
+          topRatedMovies: `${TMDB_BASE}/movie/top_rated?api_key=${TMDB_API_KEY}&language=en-US`,
+          popularTv:      `${TMDB_BASE}/tv/popular?api_key=${TMDB_API_KEY}&language=en-US`,
+          topRatedTv:     `${TMDB_BASE}/tv/top_rated?api_key=${TMDB_API_KEY}&language=en-US`
+        };
+
+        const [
+          trendingMoviesData,
+          trendingTvData,
+          nowPlayingData,
+          topRatedMoviesData,
+          popularTvData,
+          topRatedTvData
+        ] = await Promise.all([
+          fetchJson(urls.trendingMovies),
+          fetchJson(urls.trendingTv),
+          fetchJson(urls.nowPlaying),
+          fetchJson(urls.topRatedMovies),
+          fetchJson(urls.popularTv),
+          fetchJson(urls.topRatedTv),
+        ]);
+
+        // Trending Movies
+        const movies = trendingMoviesData.results || [];
+        trendingMoviesBackdropsEl.innerHTML = "";
+        trendingMoviesPostersEl.innerHTML = "";
+        if (!movies.length) {
+          trendingMoviesStatusEl.textContent = "No trending movies found.";
+        } else {
+          trendingMoviesStatusEl.textContent = "";
+          for (const m of movies.slice(0, 12)) {
+            trendingMoviesBackdropsEl.appendChild(createBackdropCard(m, "movie"));
+          }
+          for (const m of movies.slice(0, 12)) {
+            trendingMoviesPostersEl.appendChild(createPosterCard(m, "movie"));
+          }
+        }
+
+        // Trending TV
+        const tv = trendingTvData.results || [];
+        trendingTvBackdropsEl.innerHTML = "";
+        trendingTvPostersEl.innerHTML = "";
+        if (!tv.length) {
+          trendingTvStatusEl.textContent = "No trending TV shows found.";
+        } else {
+          trendingTvStatusEl.textContent = "";
+          for (const t of tv.slice(0, 12)) {
+            trendingTvBackdropsEl.appendChild(createBackdropCard(t, "tv"));
+          }
+          for (const t of tv.slice(0, 12)) {
+            trendingTvPostersEl.appendChild(createPosterCard(t, "tv"));
+          }
+        }
+
+        // Now Playing Movies
+        const nowPlaying = nowPlayingData.results || [];
+        nowPlayingMoviesEl.innerHTML = "";
+        if (!nowPlaying.length) {
+          nowPlayingStatusEl.textContent = "No now-playing movies.";
+        } else {
+          nowPlayingStatusEl.textContent = "";
+          for (const m of nowPlaying.slice(0, 12)) {
+            nowPlayingMoviesEl.appendChild(createPosterCard(m, "movie"));
+          }
+        }
+
+        // Top Rated Movies
+        const topMovies = topRatedMoviesData.results || [];
+        topRatedMoviesEl.innerHTML = "";
+        if (!topMovies.length) {
+          topRatedMoviesStatusEl.textContent = "No data.";
+        } else {
+          topRatedMoviesStatusEl.textContent = "";
+          for (const m of topMovies.slice(0, 12)) {
+            topRatedMoviesEl.appendChild(createPosterCard(m, "movie"));
+          }
+        }
+
+        // Popular TV
+        const popularTv = popularTvData.results || [];
+        popularTvEl.innerHTML = "";
+        if (!popularTv.length) {
+          popularTvStatusEl.textContent = "No data.";
+        } else {
+          popularTvStatusEl.textContent = "";
+          for (const t of popularTv.slice(0, 12)) {
+            popularTvEl.appendChild(createPosterCard(t, "tv"));
+          }
+        }
+
+        // Top Rated TV
+        const topTv = topRatedTvData.results || [];
+        topRatedTvEl.innerHTML = "";
+        if (!topTv.length) {
+          topRatedTvStatusEl.textContent = "No data.";
+        } else {
+          topRatedTvStatusEl.textContent = "";
+          for (const t of topTv.slice(0, 12)) {
+            topRatedTvEl.appendChild(createPosterCard(t, "tv"));
+          }
+        }
+
+      } catch (err) {
+        console.error(err);
+        [
+          trendingMoviesStatusEl, trendingTvStatusEl,
+          nowPlayingStatusEl, topRatedMoviesStatusEl,
+          popularTvStatusEl, topRatedTvStatusEl
+        ].forEach(el => el.textContent = "Error loading data. Check console.");
+      }
+    }
+
+    // search -> go to search.html
+    const searchInput = document.getElementById("searchInput");
+    const searchType  = document.getElementById("searchType");
+    const searchBtn   = document.getElementById("searchBtn");
+
+    function goToSearch() {
+      const q = searchInput.value.trim();
+      const type = searchType.value;
+      if (!q) return;
+      const url = new URL("search.html", window.location.href);
+      url.searchParams.set("q", q);
+      url.searchParams.set("type", type);
+      window.location.href = url.toString();
+    }
+
+    searchBtn.addEventListener("click", goToSearch);
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") goToSearch();
+    });
+
+    loadHomeData();
+  </script>
+</body>
+</html>
