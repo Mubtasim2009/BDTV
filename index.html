@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://iptv.moonim.live/" />
   <meta property="og:title" content="BDTV VOD – Live IPTV & VOD" />
   <meta property="og:description" content="Watch live BDIX IPTV channels and on‑demand content from your browser." />
-  <meta property="og:image" content="https://iptv.moonim.live/preview.png" />
+  <meta property="og:image" content="https://iptv.moonim.live/assets/brand/preview.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
@@ -21,11 +21,11 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="BDTV VOD – Live IPTV & VOD" />
   <meta name="twitter:description" content="Watch live BDIX IPTV channels and on‑demand content from your browser." />
-  <meta name="twitter:image" content="https://iptv.moonim.live/preview.png" />
+  <meta name="twitter:image" content="https://iptv.moonim.live/assets/brand/preview.png" />
 
   <!-- Favicon & Logo -->
   <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp">
-  <meta property="og:image" content="https://iptv.moonim.live/preview.png" />
+  <meta property="og:image" content="https://iptv.moonim.live/assets/brand/preview.png" />
 
   <style>
     :root {
@@ -172,6 +172,9 @@
       cursor: pointer;
       white-space: nowrap;
       box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .search-btn:disabled {
@@ -355,11 +358,94 @@
       text-align: center;
     }
 
+    /* MOBILE IMPROVEMENTS */
     @media (max-width: 768px) {
-      .hero-title { font-size: 1.4rem; }
-      .hero { padding-inline: 4vw; }
-      .content { padding-inline: 4vw; }
-      header { padding-inline: 4vw; }
+      body {
+        font-size: 15px;
+      }
+
+      header {
+        padding-inline: 4vw;
+      }
+
+      .hero {
+        padding-inline: 4vw;
+        padding-top: 0.2rem;
+      }
+
+      .hero-title {
+        font-size: 1.3rem;
+      }
+
+      .hero-sub {
+        font-size: 0.85rem;
+      }
+
+      .search-bar-wrap {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-btn {
+        width: 100%;
+      }
+
+      .content {
+        padding-inline: 4vw;
+      }
+
+      .backdrop-row {
+        gap: 0.6rem;
+      }
+
+      .backdrop-card {
+        min-width: 210px;
+      }
+
+      .row-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 0.6rem;
+      }
+
+      .card-title {
+        font-size: 0.85rem;
+      }
+
+      .card-meta {
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        gap: 0.8rem;
+      }
+
+      .header-right {
+        gap: 0.5rem;
+      }
+
+      .nav-links {
+        gap: 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      .nav-links a {
+        padding: 0.2rem 0.5rem;
+      }
+
+      .live-btn {
+        padding: 0.35rem 0.8rem;
+        font-size: 0.78rem;
+      }
+
+      .hero-title {
+        font-size: 1.15rem;
+      }
+
+      .hero-sub {
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
@@ -482,11 +568,12 @@
     const topRatedTvStatusEl    = document.getElementById("topRatedTvStatus");
 
     function openMoviePlayer(id) {
-      window.open(`player-movie.html?id=${encodeURIComponent(id)}`, "_blank");
+      // Open in same tab for mobile friendliness
+      window.location.href = `player-movie.html?id=${encodeURIComponent(id)}`;
     }
 
     function openTvPlayer(id) {
-      window.open(`player-tv.html?id=${encodeURIComponent(id)}`, "_blank");
+      window.location.href = `player-tv.html?id=${encodeURIComponent(id)}`;
     }
 
     function createPosterCard(item, mediaType) {
@@ -741,5 +828,3 @@
   </script>
 </body>
 </html>
-
-
