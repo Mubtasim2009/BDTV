@@ -5,7 +5,6 @@
   <title>BDTV VOD – Live TV</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Favicon / App Icon -->
   <link
     rel="icon"
     type="image/webp"
@@ -17,10 +16,7 @@
     href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp"
   />
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- hls.js: modern HLS engine -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
@@ -60,7 +56,7 @@
       text-decoration: none;
     }
 
-    /* TOP NAV (match other pages) */
+    /* Unified top nav */
     .top-nav {
       padding: 1.1rem 5vw 0.4rem;
       display: flex;
@@ -90,7 +86,7 @@
       display:flex;
       gap:1rem;
       font-size:0.9rem;
-      color:var(--text-muted);
+      color:#9ca3af;
       flex-wrap:wrap;
     }
     .nav-links a {
@@ -114,7 +110,6 @@
       white-space:nowrap;
     }
 
-    /* APP SHELL BELOW NAV */
     .app-shell {
       display: flex;
       flex-direction: column;
@@ -127,7 +122,6 @@
       min-height:0;
     }
 
-    /* INTERNAL HEADER / BANNER (for live) */
     .app-header {
       display: flex;
       align-items: center;
@@ -280,7 +274,6 @@
       font-size: 10px;
     }
 
-    /* Layout */
     .main-layout {
       flex: 1;
       min-height: 0;
@@ -290,7 +283,6 @@
       margin-top:8px;
     }
 
-    /* Player card */
     .player-card {
       background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 55%),
                   radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.2), transparent 55%),
@@ -304,18 +296,6 @@
       gap: 10px;
       position: relative;
       overflow: hidden;
-    }
-
-    .player-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.12), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.1), transparent 60%);
-      opacity: 0.8;
-      mix-blend-mode: screen;
-      pointer-events: none;
     }
 
     .player-card-inner {
@@ -449,17 +429,6 @@
       display: block;
     }
 
-    .video-overlay-gradient {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(to top, rgba(15, 23, 42, 0.55), transparent 45%),
-        radial-gradient(circle at 0 0, rgba(79, 70, 229, 0.2), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(6, 182, 212, 0.16), transparent 55%);
-      mix-blend-mode: soft-light;
-    }
-
     .video-badge {
       position: absolute;
       top: 10px;
@@ -509,8 +478,7 @@
     }
 
     .kbd {
-      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono",
-        "Courier New", monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
       font-size: 10px;
       padding: 2px 6px;
       border-radius: 6px;
@@ -545,7 +513,6 @@
       background: #22c55e;
     }
 
-    /* Sidebar */
     .sidebar {
       background: rgba(15, 23, 42, 0.9);
       border-radius: 20px;
@@ -601,17 +568,6 @@
       color: #e5e7eb;
       font-size: 12px;
       outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-    }
-
-    .search-input::placeholder {
-      color: rgba(148, 163, 184, 0.85);
-    }
-
-    .search-input:focus {
-      border-color: rgba(59, 130, 246, 0.8);
-      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
-      background: rgba(15, 23, 42, 1);
     }
 
     .search-icon {
@@ -733,13 +689,13 @@
       opacity: 0;
     }
 
-    .channel-avatar.has-logo > .channel-avatar-initials {
-      display: none;
-    }
-
     .channel-avatar-initials {
       position: relative;
       z-index: 1;
+    }
+
+    .channel-avatar.has-logo > .channel-avatar-initials {
+      display: none;
     }
 
     .channel-info {
@@ -821,15 +777,20 @@
       background: rgba(127, 29, 29, 0.4);
     }
 
-    .error strong {
-      color: #fecaca;
+    .error strong { color:#fecaca; }
+
+    footer {
+      padding:0.6rem 5vw 1rem;
+      font-size:0.75rem;
+      color:#9ca3af;
+      border-top:1px solid rgba(255,255,255,0.05);
+      text-align:center;
     }
 
-    /* Responsive tweaks */
     @media (max-width: 900px) {
       .main-layout {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto auto;
+        grid-template-columns: minmax(0,1fr);
+        grid-template-rows:auto auto;
       }
     }
 
@@ -838,10 +799,7 @@
         padding-inline:4vw;
         flex-wrap:wrap;
       }
-
-      .top-right {
-        justify-content:flex-start;
-      }
+      .top-right { justify-content:flex-start; }
 
       .app-shell {
         padding: 8px 4vw 16px;
@@ -852,73 +810,44 @@
         align-items:flex-start;
       }
 
-      .brand-text h1 {
-        font-size:14px;
-      }
-
-      .brand-text span {
-        font-size:10px;
-      }
-
-      .player-card,
-      .sidebar {
-        border-radius: 18px;
-      }
-
-      .hint-text {
-        font-size: 10px;
-      }
-
-      .search-input {
-        font-size: 11px;
-      }
+      .brand-text h1 { font-size:14px; }
+      .brand-text span { font-size:10px; }
     }
 
     @media (max-width: 480px) {
       .brand-logo {
-        width: 46px;
-        height: 46px;
+        width:46px;
+        height:46px;
       }
-
-      .current-channel-title {
-        font-size: 13px;
-      }
-
       .nav-links {
         font-size:0.8rem;
         gap:0.5rem;
       }
-
-      .nav-links a {
-        padding:0.2rem 0.5rem;
-      }
-
+      .nav-links a { padding:0.2rem 0.5rem; }
       .live-btn-nav {
         padding:0.35rem 0.8rem;
         font-size:0.78rem;
       }
+      .search-input { font-size:11px; }
     }
   </style>
 </head>
 <body>
-  <!-- Top nav to match other pages -->
   <header class="top-nav">
     <a href="index.html" class="top-brand">
       <img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="BDTV VOD logo" />
     </a>
     <div class="top-right">
       <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="search.html">Search</a>
-        <a href="about.html">About</a>
+        <a href="index.html" class="nav-home">Home</a>
+        <a href="search.html" class="nav-search">Search</a>
+        <a href="about.html" class="nav-about">About</a>
       </nav>
       <button class="live-btn-nav" onclick="window.location.href='live.html'">Live TV</button>
     </div>
   </header>
 
-  <!-- Live TV app -->
   <div class="app-shell" id="appShell">
-    <!-- Internal header for live page -->
     <header class="app-header">
       <div class="brand-block">
         <div class="brand-logo">
@@ -954,9 +883,7 @@
       </div>
     </header>
 
-    <!-- Main layout -->
     <main class="main-layout">
-      <!-- Player -->
       <section class="player-card">
         <div class="player-card-inner">
           <div class="player-meta">
@@ -969,7 +896,6 @@
                 </span>
               </div>
 
-              <!-- URL hidden; button only copies -->
               <button class="copy-url-btn" id="copyUrlBtn" type="button" disabled>
                 <span class="icon">📋</span>
                 <span id="copyUrlLabel">Copy Stream URL</span>
@@ -983,7 +909,6 @@
 
           <div class="video-wrapper">
             <video id="videoPlayer" controls preload="metadata" crossorigin="anonymous"></video>
-            <div class="video-overlay-gradient"></div>
             <div class="video-badge">
               ▷ Stream
               <span style="opacity: 0.7;">/ HTML5</span>
@@ -1008,7 +933,6 @@
         </div>
       </section>
 
-      <!-- Sidebar with channels -->
       <aside class="sidebar">
         <div class="sidebar-header">
           <div>
@@ -1043,12 +967,9 @@
     </main>
   </div>
 
-  <footer style="padding:0.6rem 5vw 1rem;font-size:0.75rem;color:var(--text-muted);border-top:1px solid rgba(255,255,255,0.05);text-align:center;">
-    BDTV VOD.
-  </footer>
+  <footer>BDTV VOD.</footer>
 
   <script>
-    // ===== IPTV APP LOGIC + MODERN PLAYER (hls.js) =====
     const PLAYLISTS = {
       ayna: {
         name: "Mirror BDIX Server",
@@ -1104,7 +1025,6 @@
       channelListEl.innerHTML = "";
       channelListEl.appendChild(loadingStateEl);
 
-      // Reset state
       channels = [];
       filteredChannels = [];
       activeIndex = -1;
@@ -1146,7 +1066,6 @@
       }
     }
 
-    // Parse M3U with tvg-logo support
     function parseM3U(text) {
       const lines = text.split(/\r?\n/);
       const result = [];
@@ -1194,7 +1113,6 @@
       return result;
     }
 
-    // Extract tvg‑logo and other attributes
     function extractMetaFromExtInf(infoPart) {
       const meta = {
         group: "",
@@ -1452,7 +1370,6 @@
       loadPlaylist();
     });
 
-    // Copy stream URL (no visible text field)
     copyUrlBtn.addEventListener("click", async () => {
       if (!currentUrl) return;
       try {
@@ -1470,7 +1387,6 @@
       }
     });
 
-    // Space bar play/pause
     document.addEventListener("keydown", (e) => {
       if (
         e.code === "Space" &&
@@ -1501,7 +1417,6 @@
         '<span class="status-dot" style="background:#ef4444;box-shadow:0 0 0 4px rgba(248,113,113,0.4);"></span> Playback error';
     });
 
-    // Initial load
     loadPlaylist();
   </script>
 </body>

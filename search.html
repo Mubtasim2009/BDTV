@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MStream – Search</title>
+  <title>BDTV VOD – Search</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp">
-  <meta property="og:image" content="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" />
+  <meta name="description" content="Search BDTV VOD for movies and TV shows." />
+
+  <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp" />
 
   <style>
     :root {
@@ -16,7 +17,9 @@
       --text-main: #f5f5f5;
       --text-muted: #a7b0c5;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -26,59 +29,110 @@
       display: flex;
       flex-direction: column;
     }
+
     a { color: inherit; text-decoration: none; }
 
-    header {
-      padding: 1.2rem 5vw 0.6rem;
+    /* Unified nav */
+    .top-nav {
+      padding: 1.1rem 5vw 0.4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1.5rem;
+      flex-shrink: 0;
     }
-    .brand img {
-      height: 28px;
+
+    .top-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .top-brand img {
+      height: 32px;
       width: auto;
       display: block;
     }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .nav-links {
       display: flex;
       gap: 1rem;
       font-size: 0.9rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
     }
+
     .nav-links a {
       padding: 0.25rem 0.7rem;
       border-radius: 999px;
     }
+
     .nav-links a.active {
-      color: var(--text-main);
-      background: rgba(255,255,255,0.05);
+      color: #f5f5f5;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .live-btn-nav {
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffb800, #ff6a00);
+      color: #111;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      white-space: nowrap;
     }
 
     main {
-      padding: 0.4rem 5vw 1.2rem;
       flex: 1;
+      padding: 0.4rem 5vw 1.6rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1rem;
     }
 
-    .search-bar-wrap {
+    .page-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .page-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .search-row {
       display: flex;
       gap: 0.5rem;
       align-items: center;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.4rem;
+      flex-wrap: wrap;
     }
-    .search-bar {
+
+    .search-input-wrap {
       flex: 1;
       display: flex;
       align-items: center;
       background: rgba(5, 11, 28, 0.98);
       border-radius: 999px;
       border: 1px solid #22273a;
-      padding: 0.2rem 0.4rem 0.2rem 0.9rem;
+      padding: 0.25rem 0.5rem 0.25rem 0.9rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
     }
-    .search-bar input[type="text"] {
+
+    .search-input-wrap input {
       flex: 1;
       border: none;
       outline: none;
@@ -87,7 +141,9 @@
       font-size: 0.95rem;
       padding: 0.5rem 0.5rem 0.5rem 0;
     }
-    .search-bar input::placeholder { color: #525b75; }
+
+    .search-input-wrap input::placeholder { color: #525b75; }
+
     .search-type {
       border-radius: 999px;
       border: none;
@@ -97,6 +153,7 @@
       font-size: 0.85rem;
       padding: 0.35rem 0.8rem;
     }
+
     .search-btn {
       border-radius: 999px;
       border: none;
@@ -108,23 +165,30 @@
       font-size: 0.9rem;
       cursor: pointer;
       white-space: nowrap;
+      box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    h1 {
-      font-size: 1.4rem;
-      margin: 0.5rem 0 0.2rem;
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
     }
-    #status {
+
+    .results-info {
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 0.4rem;
     }
 
-    .row-grid {
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 0.75rem;
     }
+
     .card {
       background: rgba(8, 12, 28, 0.96);
       border-radius: 0.65rem;
@@ -136,12 +200,14 @@
       flex-direction: column;
       transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background 0.16s ease;
     }
+
     .card:hover {
       transform: translateY(-4px);
       border-color: var(--accent);
       background: rgba(15, 20, 40, 0.98);
       box-shadow: 0 22px 40px rgba(0,0,0,0.85);
     }
+
     .card img {
       width: 100%;
       aspect-ratio: 2 / 3;
@@ -149,20 +215,24 @@
       display: block;
       background: #000;
     }
+
     .card-body {
       padding: 0.45rem 0.55rem 0.5rem;
       display: flex;
       flex-direction: column;
       gap: 0.18rem;
     }
+
     .card-title {
       font-size: 0.9rem;
       font-weight: 600;
     }
+
     .card-meta {
       font-size: 0.8rem;
       color: var(--text-muted);
     }
+
     .badge {
       display: inline-block;
       padding: 0.12rem 0.5rem;
@@ -174,35 +244,79 @@
       letter-spacing: 0.05em;
     }
 
+    .empty, .error {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
+    .error { color: #fecaca; }
+
     footer {
       padding: 0.8rem 5vw 1.2rem;
       font-size: 0.75rem;
       color: var(--text-muted);
       border-top: 1px solid rgba(255,255,255,0.05);
-      text-align: center;
+      text-align:center;
+      margin-top:auto;
     }
 
     @media (max-width: 768px) {
-      main { padding-inline: 4vw; }
-      header { padding-inline: 4vw; }
+      .top-nav {
+        padding-inline:4vw;
+        flex-wrap:wrap;
+      }
+      .top-right { justify-content:flex-start; }
+
+      main { padding-inline:4vw; }
+
+      .search-row {
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .search-btn { width:100%; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links {
+        font-size:0.8rem;
+        gap:0.5rem;
+      }
+      .nav-links a {
+        padding:0.2rem 0.5rem;
+      }
+
+      .live-btn-nav {
+        padding:0.35rem 0.8rem;
+        font-size:0.78rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="brand">
-      <img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="MStream logo">
+  <header class="top-nav">
+    <a href="index.html" class="top-brand">
+      <img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="BDTV VOD logo">
     </a>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="search.html" class="active">Search</a>
-      <a href="about.html">About</a>
-    </nav>
+    <div class="top-right">
+      <nav class="nav-links">
+        <a href="index.html" class="nav-home">Home</a>
+        <a href="search.html" class="nav-search active">Search</a>
+        <a href="about.html" class="nav-about">About</a>
+      </nav>
+      <button class="live-btn-nav" onclick="window.location.href='live.html'">Live TV</button>
+    </div>
   </header>
 
   <main>
-    <div class="search-bar-wrap">
-      <div class="search-bar">
+    <div>
+      <div class="page-title">Search</div>
+      <div class="page-sub">Find movies and TV shows by title.</div>
+    </div>
+
+    <div class="search-row">
+      <div class="search-input-wrap">
         <input id="searchInput" type="text" placeholder="Search movies or TV shows..." />
         <select id="searchType" class="search-type">
           <option value="multi">All</option>
@@ -213,48 +327,57 @@
       <button id="searchBtn" class="search-btn">Search</button>
     </div>
 
-    <h1 id="heading">Search</h1>
-    <div id="status">Type a query and press Search.</div>
-    <div id="results" class="row-grid"></div>
+    <div class="results-info" id="resultsInfo">Enter a query to begin.</div>
+    <section class="grid" id="resultsGrid"></section>
+    <div class="empty" id="emptyState" style="display:none;">No results found.</div>
+    <div class="error" id="errorState" style="display:none;">Error loading results. Check console.</div>
   </main>
 
-  <footer>
-    Data from TMDB – Streams via VidKing – UI by MStream.
-  </footer>
+  <footer>BDTV VOD.</footer>
 
   <script>
     const TMDB_API_KEY = "b14194d00ce48c36318eefa745bcdeec";
     const TMDB_BASE = "https://api.themoviedb.org/3";
-    const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/";
-    const POSTER_SIZE = "w300";
+    const TMDB_IMG_BASE = "https://image.tmdb.org/t/p/w300";
 
     const searchInput = document.getElementById("searchInput");
     const searchType  = document.getElementById("searchType");
     const searchBtn   = document.getElementById("searchBtn");
-    const headingEl   = document.getElementById("heading");
-    const statusEl    = document.getElementById("status");
-    const resultsEl   = document.getElementById("results");
+    const resultsInfo = document.getElementById("resultsInfo");
+    const resultsGrid = document.getElementById("resultsGrid");
+    const emptyState  = document.getElementById("emptyState");
+    const errorState  = document.getElementById("errorState");
 
-    function getQueryParam(name) {
+    function getQueryFromUrl() {
       const url = new URL(window.location.href);
-      return url.searchParams.get(name);
+      return {
+        q: url.searchParams.get("q") || "",
+        type: url.searchParams.get("type") || "multi",
+      };
     }
 
-    function openMoviePlayer(id) {
-      window.open(`player-movie.html?id=${encodeURIComponent(id)}`, "_blank");
+    function updateUrl(q, type) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("q", q);
+      url.searchParams.set("type", type);
+      window.history.replaceState({}, "", url.toString());
     }
 
-    function openTvPlayer(id) {
-      window.open(`player-tv.html?id=${encodeURIComponent(id)}`, "_blank");
+    function openMovie(id) {
+      window.location.href = `player-movie.html?id=${encodeURIComponent(id)}`;
     }
 
-    function createPosterCard(item, mediaType) {
+    function openTv(id) {
+      window.location.href = `player-tv.html?id=${encodeURIComponent(id)}`;
+    }
+
+    function createCard(item, mediaType) {
       const card = document.createElement("article");
       card.className = "card";
 
       const img = document.createElement("img");
       if (item.poster_path) {
-        img.src = TMDB_IMG_BASE + POSTER_SIZE + item.poster_path;
+        img.src = TMDB_IMG_BASE + item.poster_path;
       } else {
         img.src = "https://via.placeholder.com/300x450?text=No+Image";
       }
@@ -287,8 +410,8 @@
       card.appendChild(body);
 
       card.addEventListener("click", () => {
-        if (mediaType === "tv") openTvPlayer(item.id);
-        else openMoviePlayer(item.id);
+        if (mediaType === "tv") openTv(item.id);
+        else openMovie(item.id);
       });
 
       return card;
@@ -300,76 +423,83 @@
       return res.json();
     }
 
-    async function doSearch(q, type) {
+    async function runSearch(q, type) {
       if (!TMDB_API_KEY) {
-        statusEl.textContent = "ERROR: TMDB API key missing.";
-        return;
-      }
-      if (!q) {
-        statusEl.textContent = "Please enter a search query.";
+        resultsInfo.textContent = "API key missing.";
         return;
       }
 
-      resultsEl.innerHTML = "";
-      statusEl.textContent = "Searching TMDB…";
+      if (!q.trim()) {
+        resultsInfo.textContent = "Enter a query to begin.";
+        resultsGrid.innerHTML = "";
+        emptyState.style.display = "none";
+        errorState.style.display = "none";
+        return;
+      }
+
+      resultsInfo.textContent = "Searching…";
+      resultsGrid.innerHTML = "";
+      emptyState.style.display = "none";
+      errorState.style.display = "none";
 
       try {
-        let endpoint;
-        if (type === "multi") endpoint = "/search/multi";
-        else if (type === "movie") endpoint = "/search/movie";
-        else endpoint = "/search/tv";
+        const endpoint =
+          type === "movie"
+            ? "search/movie"
+            : type === "tv"
+            ? "search/tv"
+            : "search/multi";
 
-        const url = new URL(TMDB_BASE + endpoint);
-        url.searchParams.set("api_key", TMDB_API_KEY);
-        url.searchParams.set("query", q);
-        url.searchParams.set("language", "en-US");
-        url.searchParams.set("include_adult", "false");
+        const url = `${TMDB_BASE}/${endpoint}?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(
+          q
+        )}&page=1&include_adult=false`;
 
         const data = await fetchJson(url);
-        const results = Array.isArray(data.results) ? data.results : [];
+        const results = (data.results || []).filter(
+          (r) => r.media_type !== "person"
+        );
 
-        headingEl.textContent = `Search: "${q}"`;
         if (!results.length) {
-          statusEl.textContent = "No results found.";
+          resultsInfo.textContent = "No results.";
+          emptyState.style.display = "block";
           return;
         }
 
-        statusEl.textContent = `Found ${results.length} result(s). Click to open player.`;
-        for (const item of results) {
-          const mediaType = item.media_type || type || (item.name ? "tv" : "movie");
-          if (mediaType !== "movie" && mediaType !== "tv") continue;
-          resultsEl.appendChild(createPosterCard(item, mediaType));
-        }
+        resultsInfo.textContent = `Showing ${results.length} result${
+          results.length === 1 ? "" : "s"
+        } for “${q}”`;
+
+        results.forEach((item) => {
+          let mType = item.media_type || type;
+          if (mType !== "movie" && mType !== "tv") {
+            mType = "movie";
+          }
+          resultsGrid.appendChild(createCard(item, mType));
+        });
       } catch (err) {
         console.error(err);
-        statusEl.textContent = "Error talking to TMDB. Check console.";
+        resultsInfo.textContent = "";
+        errorState.style.display = "block";
       }
     }
 
-    function applyUrlToForm() {
-      const q = getQueryParam("q") || "";
-      const type = getQueryParam("type") || "multi";
-      searchInput.value = q;
-      searchType.value = type;
-      if (q) doSearch(q, type);
-    }
-
-    function handleSearchClick() {
+    function startSearch() {
       const q = searchInput.value.trim();
       const type = searchType.value;
-      if (!q) return;
-      const url = new URL(window.location.href);
-      url.searchParams.set("q", q);
-      url.searchParams.set("type", type);
-      window.location.href = url.toString();
+      updateUrl(q, type);
+      runSearch(q, type);
     }
 
-    searchBtn.addEventListener("click", handleSearchClick);
+    searchBtn.addEventListener("click", startSearch);
     searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleSearchClick();
+      if (e.key === "Enter") startSearch();
     });
 
-    applyUrlToForm();
+    // Initialize from URL
+    const { q, type } = getQueryFromUrl();
+    if (q) searchInput.value = q;
+    searchType.value = type || "multi";
+    if (q) runSearch(q, searchType.value);
   </script>
 </body>
 </html>
