@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BDTV VOD – Actor</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" type="image/webp" href="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/ICON.webp" />
+  <style>
+    :root {
+      --bg: #050816;
+      --text: #f5f5f8;
+      --muted: #9aa4b3;
+      --accent: #e50914;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#0d1728 0,#020617 60%);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial}
+    header.top-nav{padding:1.1rem 5vw;display:flex;align-items:center;justify-content:space-between}
+    header .top-brand img{height:32px}
+    .container{max-width:1100px;margin:0 auto;padding:12px 5vw 40px}
+    .person-card{display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)}
+    .person-photo{width:140px;height:140px;border-radius:8px;object-fit:cover;background:#0a0a0a}
+    .person-info{flex:1}
+    .person-name{font-size:1.4rem;font-weight:700}
+    .person-bio{color:var(--muted);margin-top:8px;line-height:1.5}
+    .credits-title{margin-top:18px;font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:10px}
+    .card{background:rgba(255,255,255,0.02);border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
+    .card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+    .card-body{padding:8px}
+    .card-title{font-size:0.9rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .card-meta{font-size:0.8rem;color:var(--muted)}
+    footer{margin-top:28px;color:var(--muted);text-align:center;font-size:0.85rem}
+    @media(max-width:720px){.person-card{flex-direction:column;align-items:center}.person-photo{width:110px;height:110px}.person-name{font-size:1.2rem}}
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <a class="top-brand" href="index.html"><img src="https://raw.githubusercontent.com/Mubtasim2009/Aboutme/c74e8b467a2abce57120a9b1d39eb0edb8e1c038/assets/brand/LOGO.webp" alt="logo"></a>
+    <nav style="display:flex;gap:12px;align-items:center"><a href="index.html" style="color:var(--muted)">Home</a><a href="search.html" style="color:var(--muted)">Search</a><a href="live.html" style="color:var(--muted)">Live</a></nav>
+  </header>
+
+  <div class="container">
+    <div id="personRoot" class="person-card">
+      <img id="personPhoto" class="person-photo" src="https://via.placeholder.com/300x300?text=No+Photo" alt="person" />
+      <div class="person-info">
+        <div id="personName" class="person-name">Loading…</div>
+        <div id="personBio" class="person-bio"></div>
+      </div>
+    </div>
+
+    <div id="knownForSection">
+      <div class="credits-title">Known For</div>
+      <div id="knownForGrid" class="grid"></div>
+    </div>
+
+    <div id="movieCreditsSection">
+      <div class="credits-title">Actor Credits (Movies & TV)</div>
+      <div id="movieCreditsGrid" class="grid"></div>
+    </div>
+
+    <footer>BDTV VOD.</footer>
+  </div>
+
+  <script>
+    const TMDB_API_KEY = "b14194d00ce48c36318eefa745bcdeec";
+    const TMDB_BASE = "https://api.themoviedb.org/3";
+    const TMDB_IMG = "https://image.tmdb.org/t/p/w300";
+
+    function getPersonIdFromUrl() {
+      const u = new URL(window.location.href);
+      return u.searchParams.get("id");
+    }
+
+    async function fetchJson(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("TMDB error " + res.status);
+      return res.json();
+    }
+
+    function openWork(work) {
+      // work can be movie or tv - open appropriate player page
+      if (work.media_type === "movie" || work.title) {
+        window.location.href = `player-movie.html?id=${encodeURIComponent(work.id)}`;
+      } else if (work.media_type === "tv" || work.name) {
+        window.location.href = `player-tv.html?id=${encodeURIComponent(work.id)}`;
+      } else {
+        // fallback open movie
+        window.location.href = `player-movie.html?id=${encodeURIComponent(work.id)}`;
+      }
+    }
+
+    async function loadPerson() {
+      const personId = getPersonIdFromUrl();
+      if (!personId) {
+        document.getElementById("personName").textContent = "No actor specified";
+        return;
+      }
+
+      try {
+        const [person, credits, combined] = await Promise.all([
+          fetchJson(`${TMDB_BASE}/person/${personId}?api_key=${TMDB_API_KEY}&language=en-US`),
+          fetchJson(`${TMDB_BASE}/person/${personId}/movie_credits?api_key=${TMDB_API_KEY}&language=en-US`),
+          fetchJson(`${TMDB_BASE}/person/${personId}/tv_credits?api_key=${TMDB_API_KEY}&language=en-US`)
+        ]);
+
+        document.getElementById("personName").textContent = person.name;
+        document.getElementById("personBio").textContent = person.biography || "No biography available.";
+
+        const photo = document.getElementById("personPhoto");
+        if (person.profile_path) photo.src = TMDB_IMG + person.profile_path;
+        else photo.src = "https://via.placeholder.com/300x300?text=No+Photo";
+
+        // Known for: take top popular items from combined credits
+        const combinedCredits = [];
+        (credits.cast || []).forEach(c => combinedCredits.push({...c, media_type:'movie'}));
+        (combined.cast || []).forEach(c => combinedCredits.push({...c, media_type:'tv'}));
+        // sort by popularity/vote_count or popularity property if present
+        combinedCredits.sort((a,b) => (b.popularity||0) - (a.popularity||0));
+        const knownFor = combinedCredits.slice(0,12);
+        const knownGrid = document.getElementById("knownForGrid");
+        knownGrid.innerHTML = "";
+        for (const k of knownFor) {
+          const c = document.createElement("div");
+          c.className = "card";
+          const img = document.createElement("img");
+          if (k.poster_path) img.src = TMDB_IMG + k.poster_path;
+          else if (k.backdrop_path) img.src = TMDB_IMG + k.backdrop_path;
+          else img.src = "https://via.placeholder.com/300x450?text=No+Image";
+          const body = document.createElement("div");
+          body.className = "card-body";
+          const title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = k.title || k.name || "Untitled";
+          const meta = document.createElement("div");
+          meta.className = "card-meta";
+          meta.textContent = (k.release_date ? k.release_date.slice(0,4) : (k.first_air_date ? k.first_air_date.slice(0,4) : "")) + (k.media_type ? ` • ${k.media_type.toUpperCase()}` : "");
+          body.appendChild(title);
+          body.appendChild(meta);
+          c.appendChild(img);
+          c.appendChild(body);
+
+          c.addEventListener("click", () => openWork(k));
+          knownGrid.appendChild(c);
+        }
+
+        // All credits: merge and sort by release date descending
+        const allCredits = combinedCredits.slice().sort((a,b) => {
+          const da = a.release_date || a.first_air_date || "0000";
+          const db = b.release_date || b.first_air_date || "0000";
+          return db.localeCompare(da);
+        });
+
+        const creditsGrid = document.getElementById("movieCreditsGrid");
+        creditsGrid.innerHTML = "";
+        for (const k of allCredits) {
+          const c = document.createElement("div");
+          c.className = "card";
+          const img = document.createElement("img");
+          if (k.poster_path) img.src = TMDB_IMG + k.poster_path;
+          else if (k.backdrop_path) img.src = TMDB_IMG + k.backdrop_path;
+          else img.src = "https://via.placeholder.com/300x450?text=No+Image";
+          const body = document.createElement("div");
+          body.className = "card-body";
+          const title = document.createElement("div");
+          title.className = "card-title";
+          title.textContent = k.title || k.name || "Untitled";
+          const meta = document.createElement("div");
+          meta.className = "card-meta";
+          const year = (k.release_date || k.first_air_date || "").slice(0,4);
+          meta.textContent = `${year} • ${k.character ? k.character : (k.job ? k.job : "")}`;
+          body.appendChild(title);
+          body.appendChild(meta);
+          c.appendChild(img);
+          c.appendChild(body);
+
+          c.addEventListener("click", () => openWork(k));
+          creditsGrid.appendChild(c);
+        }
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById("personName").textContent = "Failed to load actor.";
+        document.getElementById("personBio").textContent = "";
+      }
+    }
+
+    loadPerson();
+  </script>
+</body>
+</html>
